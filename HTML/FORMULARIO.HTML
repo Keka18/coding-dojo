@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>formulario</title>
+        <meta name="description" content="Este es el primer formulario creado">
+    </head>
+    <body>
+        <form>
+            <p>Mi Primer Formulario</p>
+            <label for="name">Nombre:</label><br>
+            <input type="text" id="name" name="name"><br>
+            <label for="lname">Apellido:</label><br>
+            <input type="text" id="lname" name="lname"><br>
+            <label for="Email">Email:</label><br>
+            <input type="text" id="Email" name="Email"><br>
+            <label for="Pwd">Password:</label><br>
+            <input type="Password" id="Pwd" name="Pwd"><br>
+            <label for="Confirm">Confirmar</label><br>
+            <input type="password" id="Confirm" name="Confirm"><br>
+            <label for="birthday">Cumpleaños</label><br>
+            <input type="date" id="birthday" name="birthday"><br>
+            <p>Marque su sexo</p><br>
+            <label for="masculino">Masculino</label>
+            <input type="radio" id="masculino" name="genero" value="masculino">
+            <label for="femenino">Femenino</label>
+            <input type="radio" id="femenino" name="genero" value="femenino">
+            <label for="prefiero-no-decir">Prefiero no decir</label>
+            <input type="radio" id="prefiero-no-decir" name="genero" value="prefiero-no-decir">
+            <p>Escriba una breve descripción de usted : </p>
+            <textarea name="descripcion"></textarea>
+            <p>Lenguaje Favorito
+                <select name="lenguaje">
+                    <option value="Java">Java</option>
+                    <option value="Python">Python</option>
+                    <option value="JavaScript">JavaScript</option>
+                </select>
+            </p>
+            <input type ="submit" value="Enviar">
+        </form>
+    </body>
+</html>
