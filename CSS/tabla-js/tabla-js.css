@@ -1,0 +1,126 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 100%;
+    padding: 1%;
+}
+
+.spa {
+    margin-left: 27px;
+}
+
+article {
+    width: 100%;
+    height: 1%;
+}
+
+h5,
+p {
+    display: inline-block;
+    vertical-align: top;
+    color: red;
+}
+
+article p {
+    margin: 5px;
+    margin-left: -0.5%;
+    width: 900px;
+}
+
+article p span {
+    margin-left: 33.5px;
+    font-size: 14px;
+    margin-right: 0;
+}
+
+.sp {
+    margin-left: 26px;
+}
+
+.caja1 {
+    width: 1%;
+    height: 6%;
+    display: inline-block;
+    vertical-align: top;
+    color: red;
+    line-height: 46px;
+}
+
+button {
+    width: 38px;
+    font-size: 8px;
+    color: #3413a2;
+    height: 40px;
+}
+
+span {
+    font-size: 18px;
+}
+
+.caja2 {
+    width: 7%;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 2%;
+}
+
+.caja2 button {
+    background-color: #689bff;
+}
+
+.caja3 {
+    width: 29%;
+    display: inline-block;
+    margin-top: 137px;
+    margin-right: -29px;
+}
+
+.caja3 button {
+    background-color: #fd9a98;
+}
+
+.boton {
+    margin-right: 30px;
+}
+
+.caja4 {
+    width: 18%;
+    display: inline-block;
+    margin-left: 2.1%;
+}
+
+.caja4 button {
+    background-color: #fecb00;
+}
+
+.caja5 {
+    width: 50%;
+    margin: 30px 0 0 50px;
+}
+
+.caja5 button {
+    display: inline-block;
+}
+
+h6 {
+    display: inline-block;
+    color: red;
+    width: 107px;
+}
+
+h6 span {
+    margin-left: 26%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.caja5 button {
+    background-color: #1fca21;
+}
+
+.boton1 {
+    margin-left: 209px;
+}

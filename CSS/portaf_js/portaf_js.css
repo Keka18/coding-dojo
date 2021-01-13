@@ -1,0 +1,167 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#contenedor {
+    width: 750px;
+    height: auto;
+}
+
+article {
+    width: 100%;
+    height: 5%;
+    background-color: #fefefe;
+}
+
+article h1 {
+    display: inline-block;
+    vertical-align: top;
+    margin: 5px 20px;
+    font-family: sans-serif;
+}
+
+article h2 {
+    display: inline-block;
+    vertical-align: top;
+    margin: 5px;
+    padding-left: 140px;
+    font-family: Geneva;
+    font-size: 20px;
+}
+
+#caja {
+    width: 100%;
+    height: auto;
+    background-color: #3a282e;
+}
+
+#photo {
+    width: 41%;
+    height: 28%;
+    display: inline-block;
+    vertical-align: top;
+    border: 4px solid rgb(189, 183, 183);
+    margin: 10px;
+}
+
+#caja1 {
+    width: 53%;
+    height: 206px;
+    display: inline-block;
+    background-color: #ebe2ea;
+    margin: 10px 10px 10px 0;
+}
+
+#caja1 h3 {
+    background-color: #c5c0c4;
+    color: white;
+    padding-left: 2%;
+}
+
+#caja1 p {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 12px;
+}
+
+#caja1 p,
+#caja1 span {
+    margin-left: 2%;
+}
+
+#caja1 span {
+    text-decoration-line: underline;
+    margin-top: 10px;
+}
+
+#lamode,
+#family,
+#five {
+    width: 100%;
+    height: 30%;
+    margin: 0;
+}
+
+#cajafin {
+    width: 100%;
+    height: 65px;
+    background-color: #fefefe;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#cajafin p {
+    text-align: center;
+}
+
+#redes {
+    width: 55%;
+    height: 30%;
+    display: inline-block;
+    padding: 0px;
+    margin-left: 168px;
+    vertical-align: top;
+}
+
+#redes img {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+
+#h6 {
+    margin-top: 10px;
+}
+
+.box {
+    width: 221px;
+    height: auto;
+    margin-left: 20px;
+    display: inline-block;
+    color: white;
+    border-radius: 4px;
+    background-color: #ebe2ea;
+    margin-bottom: 10px;
+}
+
+.imagenes img {
+    width: 38px;
+    height: 35px;
+    margin: 0px;
+}
+
+.imagenes {
+    display: inline-block;
+    height: 80px;
+    background-color: #ebe2ea;
+}
+
+input {
+    margin-left: 75px;
+    background-color: green;
+    display: inline-block;
+    color: white;
+    border-radius: 4px;
+}
+
+.box p {
+    background-color: #ebe2ea;
+    font-size: 14px;
+    height: 189px;
+    color: black;
+}
+
+.box h3 {
+    background-color: #c5c0c4;
+}
+
+.box h4 {
+    background-color: #c5c0c4;
+}
+
+h5 {
+    width: 70px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: top;
+}
