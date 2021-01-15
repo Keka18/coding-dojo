@@ -1,0 +1,115 @@
+1.El ejemplo usa una cláusula WHERE para mostrar la población de 'Francia'. Tenga en cuenta que las cadenas (fragmentos de texto que son datos) deben estar entre 'comillas simples';
+
+	SELECT population FROM world
+  	WHERE name = 'germany';
+2.Checking a list The word IN allows us to check if an item is in a list. The example shows the name and population for the countries 'Brazil', 'Russia', 'India' and 'China'.
+  Show the name and the population for 'Sweden', 'Norway' and 'Denmark'.
+
+	SELECT name, population FROM world
+  	WHERE name IN ('Sweden', 'Norway', 'Denmark');
+
+3.Which countries are not too small and not too big? BETWEEN allows range checking (range specified is inclusive of boundary values). The example below shows countries with an area of 250,000-300,000 sq. km. Modify it to show the country and the area for countries with an area between 200,000 and 250,000.
+
+	SELECT name, area FROM world
+  	WHERE area BETWEEN 200000 AND 250000;
+----------------------------------------------------------------------------
+
+1.Puede utilizar WHERE name LIKE 'B%'para buscar los países que comienzan con "B".
+El% es un comodín que puede coincidir con cualquier carácter
+
+	SELECT name FROM world
+  	WHERE name LIKE 'Y%';
+
+2.Encuentra los países que terminan con y
+
+	SELECT name FROM world
+  	WHERE name LIKE '%Y';
+
+3.Luxemburgo tiene una x , al igual que otro país. Enumere ambos.
+  Encuentra los países que contienen la letra x
+
+	SELECT name FROM world
+  	WHERE name LIKE '%x%';
+
+4.Iceland, Switzerland end with land - but are there others?
+  Find the countries that end with land
+
+	SELECT name FROM world
+  	WHERE name LIKE '%land';
+
+5.Columbia comienza con una C y termina con ia ; hay dos más como esta.
+Encuentre los países que comienzan con C y terminan con ia
+
+	SELECT name FROM world
+  	WHERE name LIKE 'C%' AND name LIKE '%ia';
+
+6.Greece has a double e - who has a double o?
+Find the country that has oo in the name
+
+	SELECT name FROM world
+  	WHERE name LIKE '%oo%';
+
+7.Bahamas has three a - who else?
+Find the countries that have three or more a in the name
+
+	SELECT name FROM world
+  	WHERE name LIKE '%a%a%a%' 
+
+8.India and Angola have an n as the second character. You can use the underscore as a single character wildcard.
+SELECT name FROM world
+ WHERE name LIKE '_n%'
+ORDER BY name
+Find the countries that have "t" as the second character.
+
+	SELECT name FROM world
+ 	WHERE name LIKE '_t%'
+	ORDER BY name;
+
+9.Lesotho and Moldova both have two o characters separated by two other characters.
+Find the countries that have two "o" characters separated by two others.
+
+	SELECT name FROM world
+ 	WHERE name LIKE '%o__o%';
+
+10.Cuba and Togo have four characters names.
+Find the countries that have exactly four characters.
+
+	SELECT name FROM world
+ 	WHERE name LIKE '____';
+
+11.The capital of Luxembourg is Luxembourg. Show all the countries where the capital is the same as the name of the country
+Find the country where the name is the capital city.
+
+	SELECT name
+  	FROM world
+ 	WHERE name = capital;
+
+12.The capital of Mexico is Mexico City. Show all the countries where the capital has the country together with the word "City".
+Find the country where the capital is the country plus "City".
+
+	SELECT name
+  	FROM world
+ 	WHERE capital = concat(name, ' City');
+
+13.Busque la capital y el nombre donde la capital incluye el nombre del país.
+
+	SELECT capital , name
+  	FROM world
+	WHERE capital LIKE concat('%', name, '%')
+
+14.Encuentre la capital y el nombre donde la capital es una extensión del nombre del país.
+Usted debe incluir la Ciudad de México , ya que es más largo que México . No debe incluir Luxemburgo ya que la capital es la misma que el país.
+
+	SELECT capital , name
+  	FROM world
+	 WHERE capital LIKE concat('%', name, '%')
+	AND capital > name
+
+
+15.Para Monaco-Ville, el nombre es Monaco y la extensión es -Ville .
+Muestra el nombre y la extensión donde la capital es una extensión del nombre del país.
+
+	SELECT name, REPLACE(capital, name, '')
+  	FROM world
+	 WHERE capital LIKE concat('%', name, '%')
+	AND capital > name

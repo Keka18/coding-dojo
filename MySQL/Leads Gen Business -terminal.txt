@@ -1,0 +1,400 @@
+Consultas
+1. ¿Qué consulta ejecutaría para obtener los ingresos totales para marzo de 2012?
+
+MariaDB [lead_gen_business]> SELECT MONTHNAME(charged_datetime) AS month, SUM(amount) 
+    -> AS 'revenue' from billing
+    -> WHERE charged_datetime >= '2012/03/01' 
+    -> AND charged_datetime< '2012/03/31' 
+    -> ORDER BY billing_id;
++-------+---------+
+| month | revenue |
++-------+---------+
+| March |   35646 |
++-------+---------+
+
+2. ¿Qué consulta ejecutaría para obtener los ingresos totales recaudados del cliente con una identificación de 2?
+
+MariaDB [lead_gen_business]> SELECT client_id, sum(amount) AS 'total_revenue' FROM billing
+    -> WHERE client_id = 2;
++-----------+---------------+
+| client_id | total_revenue |
++-----------+---------------+
+|         2 |         18639 |
++-----------+---------------+
+
+3. ¿Qué consulta ejecutaría para obtener todos los sitios que posee client = 10?
+
+MariaDB [lead_gen_business]> SELECT domain_name as 'website', clients.client_id FROM clients
+    -> JOIN sites ON clients.client_id = sites.client_id
+    -> WHERE clients.client_id =10;
++---------------------+-----------+
+| website             | client_id |
++---------------------+-----------+
+| searchcomputers.com |        10 |
+| rogers.com          |        10 |
++---------------------+-----------+
+
+4. ¿Qué consulta ejecutaría para obtener el número total de sitios creados por mes por año para el cliente con una identificación de 1? ¿Qué pasa con el cliente = 20?
+
+MariaDB [lead_gen_business]> SELECT clients.client_id, COUNT(domain_name) AS 'number_of_websites', 
+    -> MONTHNAME(created_datetime) AS 'month_created', YEAR(created_datetime) 
+    -> AS 'year_created'
+    -> FROM clients
+    -> JOIN sites ON clients.client_id = sites.client_id
+    -> wHERE clients.client_id =1
+    -> group by domain_name ORDER BY client_id;
++-----------+--------------------+---------------+--------------+
+| client_id | number_of_websites | month_created | year_created |
++-----------+--------------------+---------------+--------------+
+|         1 |                  1 | November      |         2010 |
+|         1 |                  1 | April         |         2011 |
+|         1 |                  1 | September     |         2011 |
+|         1 |                  1 | November      |         2012 |
+|         1 |                  1 | December      |         2011 |
++-----------+--------------------+---------------+--------------+
+
+------------------------------------------------------------------
+
+MariaDB [lead_gen_business]> SELECT clients.client_id, COUNT(domain_name) AS 'number_of_websites', 
+    -> MONTHNAME(created_datetime) AS 'month_created', YEAR(created_datetime) 
+    -> AS 'year_created'
+    -> FROM clients
+    -> JOIN sites ON clients.client_id = sites.client_id
+    -> wHERE clients.client_id =20
+    -> group by domain_name ORDER BY client_id;
++-----------+--------------------+---------------+--------------+
+| client_id | number_of_websites | month_created | year_created |
++-----------+--------------------+---------------+--------------+
+|        20 |                  1 | October       |         2011 |
++-----------+--------------------+---------------+--------------+
+
+5. ¿Qué consulta ejecutaría para obtener el número total de clientes potenciales generados para cada uno de los sitios entre el 1 de enero de 2011 y el 15 de febrero de 2011?
+
+MariaDB [lead_gen_business]> SELECT domain_name as 'website', COUNT(leads_id) as 'number_of_lead', 
+    -> DATE_FORMAT(registered_datetime, '%M %d, %Y') as 'date_generated' 
+    -> FROM sites
+    -> LEFT JOIN leads ON leads.site_id = sites.site_id
+    -> WHERE registered_datetime >= '2011/01/01' 
+    -> AND registered_datetime< '2011/02/15'
+    -> GROUP BY leads_id;
++-----------------------+----------------+-------------------+
+| website               | number_of_lead | date_generated    |
++-----------------------+----------------+-------------------+
+| market.com            |              1 | January 13, 2011  |
+| ehow.com              |              1 | January 01, 2011  |
+| searchphilippines.com |              1 | February 11, 2011 |
++-----------------------+----------------+-------------------+
+
+6. ¿Qué consulta ejecutaría para obtener una lista de nombres de clientes y el número total de clientes potenciales que hemos generado para cada uno de nuestros clientes entre el 1 de enero de 2011 y el 31 de diciembre de 2011?
+
+MariaDB [lead_gen_business]> SELECT concat(clients.first_name," ", clients.last_name) 
+    -> AS 'client_name', 
+    -> COUNT(leads_id) as 'number_of_lead' FROM clients
+    -> JOIN sites ON clients.client_id = sites.client_id
+    -> JOIN leads ON leads.site_id = sites.site_id
+    -> WHERE registered_datetime >= '2011/01/01' 
+    -> AND registered_datetime < '2011/12/31'
+    -> GROUP BY clients.client_id;
++----------------------+----------------+
+| client_name          | number_of_lead |
++----------------------+----------------+
+| Michael Choi         |              8 |
+| Joe Smith            |              6 |
+| Ryan Owen            |              9 |
+| Masaki Fujimuto      |              7 |
+| Diana Sue Manlulu    |              2 |
+| John Supsupin        |              4 |
+| Toni Rose Panganiban |              7 |
+| Maria Gonzales       |              5 |
+| Tom Owen             |              7 |
+| Roosevelt Sebial     |              3 |
+| Shafira Hansen       |              3 |
+| Erica Suarez         |              4 |
+| Ferdinand Schmidt    |              3 |
+| Callie Poole         |              4 |
+| Alexa Schroeder      |              2 |
++----------------------+----------------+
+
+7. ¿Qué consulta ejecutaría para obtener una lista de nombres de clientes y el número total de clientes potenciales que hemos generado para cada cliente cada mes entre los meses 1 y 6 del año 2011?
+
+MariaDB [lead_gen_business]> SELECT concat(clients.first_name," ", clients.last_name) 
+    -> AS 'client_name', COUNT(leads_id) as 'number_of_lead', 
+    -> MONTHNAME(registered_datetime) AS 'month_created' FROM clients
+    -> JOIN sites ON clients.client_id = sites.client_id
+    -> JOIN leads ON leads.site_id = sites.site_id
+    -> WHERE registered_datetime >= '2011/01/01' 
+    -> AND registered_datetime < '2011/06/31'
+    -> GROUP BY leads_id;
++----------------------+----------------+---------------+
+| client_name          | number_of_lead | month_created |
++----------------------+----------------+---------------+
+| Michael Choi         |              1 | January       |
+| Diana Sue Manlulu    |              1 | January       |
+| Tom Owen             |              1 | February      |
+| John Supsupin        |              1 | March         |
+| Diana Sue Manlulu    |              1 | March         |
+| Ryan Owen            |              1 | April         |
+| Toni Rose Panganiban |              1 | May           |
+| Masaki Fujimuto      |              1 | May           |
+| John Supsupin        |              1 | May           |
+| Toni Rose Panganiban |              1 | June          |
++----------------------+----------------+---------------+
+
+8. ¿Qué consulta ejecutaría para obtener una lista de nombres de clientes y el número total de clientes potenciales que hemos generado para cada uno de los sitios de nuestros clientes entre el 1 de enero de 2011 y el 31 de diciembre de 2011? Solicite esta consulta por ID de cliente. Presente una segunda consulta que muestre todos los clientes, los nombres del sitio y el número total de clientes potenciales generados en cada sitio en todo momento.
+
+MariaDB [lead_gen_business]> SELECT concat(clients.first_name," ", clients.last_name) 
+    -> AS 'client_name', domain_name as 'website',
+    -> COUNT(leads_id) as 'number_of_lead', DATE_FORMAT(registered_datetime, '%M %d, %Y') 
+    -> AS 'month_created' FROM clients
+    -> JOIN sites ON clients.client_id = sites.client_id
+    -> JOIN leads ON leads.site_id = sites.site_id
+    -> WHERE registered_datetime >= '2011/01/01' 
+    -> AND registered_datetime < '2011/12/31'
+    -> GROUP BY sites.site_id ORDER BY clients.client_id, leads.site_id;
++----------------------+-----------------------+----------------+--------------------+
+| client_name          | website               | number_of_lead | month_created      |
++----------------------+-----------------------+----------------+--------------------+
+| Michael Choi         | market.com            |              4 | January 13, 2011   |
+| Michael Choi         | youtube.com           |              1 | October 01, 2011   |
+| Michael Choi         | assignmentworld.com   |              2 | August 16, 2011    |
+| Michael Choi         | serrano.com           |              1 | December 26, 2011  |
+| Joe Smith            | fox.com               |              1 | September 22, 2011 |
+| Joe Smith            | connectme.com         |              1 | December 17, 2011  |
+| Joe Smith            | olson.com             |              2 | November 03, 2011  |
+| Joe Smith            | reyes.com             |              2 | August 29, 2011    |
+| Ryan Owen            | searchhomes.com       |              3 | April 06, 2011     |
+| Ryan Owen            | family.com            |              1 | September 30, 2011 |
+| Ryan Owen            | finalsite.com         |              3 | August 07, 2011    |
+| Ryan Owen            | decker.com            |              2 | October 01, 2011   |
+| Masaki Fujimuto      | loans.com             |              1 | October 09, 2011   |
+| Masaki Fujimuto      | help.com              |              4 | May 22, 2011       |
+| Masaki Fujimuto      | cryshinjohn.com       |              2 | October 16, 2011   |
+| Diana Sue Manlulu    | ehow.com              |              1 | January 01, 2011   |
+| Diana Sue Manlulu    | olx.com               |              1 | March 22, 2011     |
+| John Supsupin        | uptownzone.com        |              1 | March 21, 2011     |
+| John Supsupin        | keepvid.com           |              2 | May 27, 2011       |
+| John Supsupin        | massey.com            |              1 | August 25, 2011    |
+| Toni Rose Panganiban | timespace.com         |              2 | May 03, 2011       |
+| Toni Rose Panganiban | atech.com             |              5 | June 03, 2011      |
+| Maria Gonzales       | homes.com             |              2 | August 13, 2011    |
+| Maria Gonzales       | warcraft.com          |              1 | August 18, 2011    |
+| Maria Gonzales       | duran.com             |              2 | December 16, 2011  |
+| Tom Owen             | searchphilippines.com |              2 | February 11, 2011  |
+| Tom Owen             | yestogod.com          |              5 | October 27, 2011   |
+| Roosevelt Sebial     | searchcomputers.com   |              1 | August 26, 2011    |
+| Roosevelt Sebial     | rogers.com            |              2 | November 26, 2011  |
+| Shafira Hansen       | valencia.com          |              1 | December 05, 2011  |
+| Shafira Hansen       | phillips.com          |              2 | November 18, 2011  |
+| Erica Suarez         | rodgers.com           |              1 | December 04, 2011  |
+| Erica Suarez         | hester.com            |              3 | December 06, 2011  |
+| Ferdinand Schmidt    | marquez.com           |              3 | August 27, 2011    |
+| Callie Poole         | webb.com              |              3 | September 17, 2011 |
+| Callie Poole         | mcmahon.com           |              1 | November 09, 2011  |
+| Alexa Schroeder      | baird.com             |              2 | August 10, 2011    |
++----------------------+-----------------------+----------------+--------------------+
+
+---------------------------------------------------------------------------------------
+
+MariaDB [lead_gen_business]> SELECT concat(clients.first_name," ", clients.last_name) 
+    -> AS 'client_name', domain_name as 'website',
+    -> COUNT(leads_id) as 'number_of_lead' FROM clients
+    -> JOIN sites ON clients.client_id = sites.client_id
+    -> JOIN leads ON leads.site_id = sites.site_id
+    -> GROUP BY sites.site_id ORDER BY clients.client_id, leads.site_id;
++----------------------+-----------------------+----------------+
+| client_name          | website               | number_of_lead |
++----------------------+-----------------------+----------------+
+| Michael Choi         | market.com            |             13 |
+| Michael Choi         | youtube.com           |              8 |
+| Michael Choi         | assignmentworld.com   |              5 |
+| Michael Choi         | serrano.com           |              3 |
+| Michael Choi         | drake.com             |              6 |
+| Joe Smith            | fox.com               |              7 |
+| Joe Smith            | flipfly.com           |              5 |
+| Joe Smith            | connectme.com         |              4 |
+| Joe Smith            | olson.com             |              6 |
+| Joe Smith            | reyes.com             |              7 |
+| Joe Smith            | waters.com            |              5 |
+| Ryan Owen            | searchhomes.com       |              6 |
+| Ryan Owen            | family.com            |             10 |
+| Ryan Owen            | finalsite.com         |              7 |
+| Ryan Owen            | decker.com            |              9 |
+| Masaki Fujimuto      | loans.com             |              7 |
+| Masaki Fujimuto      | help.com              |              9 |
+| Masaki Fujimuto      | cryshinjohn.com       |              5 |
+| Diana Sue Manlulu    | ehow.com              |              6 |
+| Diana Sue Manlulu    | olx.com               |              6 |
+| Diana Sue Manlulu    | alexander.com         |              5 |
+| Diana Sue Manlulu    | floyd.com             |              3 |
+| John Supsupin        | searchvillage.com     |              4 |
+| John Supsupin        | uptownzone.com        |              8 |
+| John Supsupin        | keepvid.com           |              6 |
+| John Supsupin        | massey.com            |              6 |
+| John Supsupin        | park.com              |              5 |
+| John Supsupin        | byers.com             |              3 |
+| Toni Rose Panganiban | searchcoronado.com    |              6 |
+| Toni Rose Panganiban | timespace.com         |              5 |
+| Toni Rose Panganiban | atech.com             |             13 |
+| Toni Rose Panganiban | lamb.com              |              6 |
+| Maria Gonzales       | homes.com             |              4 |
+| Maria Gonzales       | warcraft.com          |              7 |
+| Maria Gonzales       | duran.com             |              7 |
+| Tom Owen             | searchphilippines.com |             10 |
+| Tom Owen             | yestogod.com          |             12 |
+| Roosevelt Sebial     | searchcomputers.com   |              5 |
+| Roosevelt Sebial     | rogers.com            |              5 |
+| Alvin Malone         | lowe.com              |              2 |
+| Shafira Hansen       | johnston.com          |              5 |
+| Shafira Hansen       | valencia.com          |              4 |
+| Shafira Hansen       | phillips.com          |              8 |
+| Erica Suarez         | rodgers.com           |              4 |
+| Erica Suarez         | hester.com            |              9 |
+| Ferdinand Schmidt    | albert.com            |              5 |
+| Ferdinand Schmidt    | hopkins.com           |              2 |
+| Ferdinand Schmidt    | marquez.com           |              7 |
+| Callie Poole         | webb.com              |              9 |
+| Callie Poole         | mcmahon.com           |              4 |
+| Alexa Schroeder      | jarvis.com            |              2 |
+| Alexa Schroeder      | baird.com             |              6 |
+| Alexa Schroeder      | collier.com           |              8 |
+| Francis Walsh        | alston.com            |              4 |
+| Caesar Stewart       | wright.com            |              2 |
++----------------------+-----------------------+----------------+
+
+
+9. Escriba una sola consulta que recupere los ingresos totales recaudados de cada cliente para cada mes del año. Pídalo por ID de cliente.
+
+MariaDB [lead_gen_business]> SELECT concat(first_name, " ", last_name) as 'client_name', 
+    -> SUM(billing.amount) as 'total_revenue', MONTHNAME(charged_datetime) 
+    -> AS 'month_created', YEAR(charged_datetime) AS 'year' FROM clients
+    -> LEFT JOIN billing ON clients.client_id = billing.client_id
+    -> GROUP BY concat(first_name, " ", last_name), 
+    -> concat(year(charged_datetime), monthname(charged_datetime))
+    ->  ORDER BY clients.client_id, charged_datetime;
++----------------------+---------------+---------------+------+
+| client_name          | total_revenue | month_created | year |
++----------------------+---------------+---------------+------+
+| Michael Choi         |           300 | January       | 2011 |
+| Michael Choi         |          5000 | April         | 2011 |
+| Michael Choi         |           450 | September     | 2011 |
+| Michael Choi         |          4052 | October       | 2011 |
+| Michael Choi         |          6629 | March         | 2012 |
+| Michael Choi         |          5904 | May           | 2012 |
+| Michael Choi         |          1776 | September     | 2012 |
+| Joe Smith            |          1000 | April         | 2011 |
+| Joe Smith            |           900 | June          | 2011 |
+| Joe Smith            |          3600 | January       | 2012 |
+| Joe Smith            |          3795 | April         | 2012 |
+| Joe Smith            |          1117 | May           | 2012 |
+| Joe Smith            |          5952 | July          | 2012 |
+| Joe Smith            |          2275 | August        | 2012 |
+| Ryan Owen            |           500 | January       | 2011 |
+| Ryan Owen            |          5200 | July          | 2011 |
+| Ryan Owen            |          3217 | September     | 2011 |
+| Ryan Owen            |          1409 | May           | 2012 |
+| Masaki Fujimuto      |           200 | April         | 2011 |
+| Masaki Fujimuto      |           800 | June          | 2011 |
+| Masaki Fujimuto      |          2733 | July          | 2011 |
+| Masaki Fujimuto      |           650 | August        | 2011 |
+| Masaki Fujimuto      |          2780 | November      | 2011 |
+| Masaki Fujimuto      |          2663 | May           | 2012 |
+| Diana Sue Manlulu    |           500 | February      | 2011 |
+| Diana Sue Manlulu    |          6311 | January       | 2012 |
+| Diana Sue Manlulu    |          5970 | February      | 2012 |
+| Diana Sue Manlulu    |          6544 | March         | 2012 |
+| Diana Sue Manlulu    |          5466 | June          | 2012 |
+| Diana Sue Manlulu    |          5885 | July          | 2012 |
+| John Supsupin        |           500 | May           | 2011 |
+| John Supsupin        |           750 | June          | 2011 |
+| John Supsupin        |          1246 | July          | 2011 |
+| John Supsupin        |          7096 | October       | 2011 |
+| John Supsupin        |          1910 | July          | 2012 |
+| Toni Rose Panganiban |          1200 | February      | 2011 |
+| Toni Rose Panganiban |          4472 | March         | 2012 |
+| Toni Rose Panganiban |          3137 | September     | 2012 |
+| Toni Rose Panganiban |          2496 | November      | 2012 |
+| Maria Gonzales       |          1000 | March         | 2011 |
+| Maria Gonzales       |           100 | July          | 2011 |
+| Maria Gonzales       |          8000 | February      | 2012 |
+| Maria Gonzales       |          2907 | March         | 2012 |
+| Tom Owen             |          2500 | February      | 2011 |
+| Tom Owen             |          4181 | July          | 2011 |
+| Tom Owen             |           150 | April         | 2012 |
+| Roosevelt Sebial     |           500 | March         | 2011 |
+| Roosevelt Sebial     |          4254 | November      | 2011 |
+| Roosevelt Sebial     |          1407 | January       | 2012 |
+| Roosevelt Sebial     |           680 | April         | 2012 |
+| Roosevelt Sebial     |          5344 | July          | 2012 |
+| Roosevelt Sebial     |          5851 | October       | 2012 |
+| Roosevelt Sebial     |          2066 | November      | 2012 |
+| Alvin Malone         |          2248 | July          | 2011 |
+| Alvin Malone         |          1529 | December      | 2011 |
+| Alvin Malone         |          5995 | January       | 2012 |
+| Alvin Malone         |          5978 | June          | 2012 |
+| Shafira Hansen       |          3902 | November      | 2011 |
+| Shafira Hansen       |          8746 | March         | 2012 |
+| Ursula Holt          |          6682 | July          | 2011 |
+| Ursula Holt          |          5779 | September     | 2011 |
+| Erica Suarez         |          2847 | April         | 2012 |
+| Erica Suarez         |          5682 | October       | 2012 |
+| Ferdinand Schmidt    |          5236 | July          | 2011 |
+| Ferdinand Schmidt    |          1961 | February      | 2012 |
+| Ferdinand Schmidt    |          3264 | March         | 2012 |
+| Ferdinand Schmidt    |          9511 | August        | 2012 |
+| Callie Poole         |          2191 | September     | 2011 |
+| Callie Poole         |          4026 | December      | 2011 |
+| Callie Poole         |          5448 | June          | 2012 |
+| Hyacinth Bates       |          2284 | October       | 2011 |
+| Hyacinth Bates       |          6007 | April         | 2012 |
+| Hyacinth Bates       |          4781 | May           | 2012 |
+| Hyacinth Bates       |          4955 | October       | 2012 |
+| Alexa Schroeder      |          2643 | September     | 2011 |
+| Alexa Schroeder      |          6542 | May           | 2012 |
+| Alexa Schroeder      |          1184 | July          | 2012 |
+| Alexa Schroeder      |          3058 | October       | 2012 |
+| Francis Walsh        |          5259 | October       | 2011 |
+| Francis Walsh        |          1128 | April         | 2012 |
+| Francis Walsh        |         10057 | June          | 2012 |
+| Francis Walsh        |          1975 | November      | 2012 |
+| Caesar Stewart       |          4912 | January       | 2012 |
+| Caesar Stewart       |          3084 | March         | 2012 |
+| Caesar Stewart       |          5268 | April         | 2012 |
+| Caesar Stewart       |          5495 | June          | 2012 |
+| Caesar Stewart       |          5459 | August        | 2012 |
+| Caesar Stewart       |          7313 | September     | 2012 |
+| Caesar Stewart       |          2427 | November      | 2012 |
++----------------------+---------------+---------------+------+
+
+10. Escriba una sola consulta que recupere todos los sitios que posee cada cliente. Agrupe los resultados para que cada fila muestre un nuevo cliente. Se volverá más claro cuando agregue un nuevo campo llamado 'sitios' que tiene todos los sitios que posee el cliente. (SUGERENCIA: use GROUP_CONCAT)
+
+MariaDB [lead_gen_business]> SELECT CONCAT(first_name," ", last_name) AS 'client_name', 
+    -> GROUP_CONCAT(domain_name SEPARATOR ' / ') AS 'sites' FROM clients
+    -> LEFT JOIN sites
+    -> ON clients.client_id = sites.client_id
+    -> GROUP BY CONCAT(first_name," ", last_name) ORDER BY joined_datetime;
++----------------------+--------------------------------------------------------------------------------------+
+| client_name          | sites                                                                                |
++----------------------+--------------------------------------------------------------------------------------+
+| Michael Choi         | market.com / assignmentworld.com / youtube.com / drake.com / serrano.com             |
+| Joe Smith            | flipfly.com / olson.com / connectme.com / fox.com / waters.com / reyes.com           |
+| Ryan Owen            | decker.com / finalsite.com / family.com / searchhomes.com                            |
+| Masaki Fujimuto      | loans.com / help.com / cryshinjohn.com                                               |
+| Diana Sue Manlulu    | alexander.com / floyd.com / olx.com / ehow.com                                       |
+| John Supsupin        | byers.com / park.com / massey.com / keepvid.com / uptownzone.com / searchvillage.com |
+| Toni Rose Panganiban | timespace.com / searchcoronado.com / atech.com / lamb.com                            |
+| Maria Gonzales       | homes.com / duran.com / warcraft.com                                                 |
+| Tom Owen             | yestogod.com / searchphilippines.com                                                 |
+| Roosevelt Sebial     | searchcomputers.com / rogers.com                                                     |
+| Ursula Holt          | NULL                                                                                 |
+| Callie Poole         | webb.com / mcmahon.com                                                               |
+| Alexa Schroeder      | collier.com / baird.com / jarvis.com                                                 |
+| Erica Suarez         | hester.com / rodgers.com                                                             |
+| Alvin Malone         | lowe.com                                                                             |
+| Caesar Stewart       | wright.com                                                                           |
+| Hyacinth Bates       | NULL                                                                                 |
+| Ferdinand Schmidt    | albert.com / hopkins.com / marquez.com                                               |
+| Francis Walsh        | alston.com                                                                           |
+| Shafira Hansen       | phillips.com / valencia.com / johnston.com                                           |
++----------------------+--------------------------------------------------------------------------------------+
+
+

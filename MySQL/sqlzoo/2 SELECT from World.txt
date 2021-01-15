@@ -1,0 +1,90 @@
+1.Lea las notas sobre esta tabla. Observe el resultado de ejecutar este comando SQL para mostrar el nombre, continente y población de todos los países.
+
+	SELECT name, continent, population FROM world
+
+2.Cómo utilizar WHERE para filtrar registros. Muestre el nombre de los países que tienen una población de al menos 200 millones. 200 millones son 200000000, hay ocho ceros.
+
+	SELECT name FROM world
+	WHERE population >=200000000
+
+3.Give the name and the per capita GDP for those countries with a population of at least 200 million.
+
+	SELECT name, gdp/population as 'per_capita_GDP' FROM world
+	WHERE  population >=200000000
+
+4.Show the name and population in millions for the countries of the continent 'South America'. Divide the population by 1000000 to get population in millions
+
+	SELECT name, population/1000000 from world
+	WHERE continent = 'south america' 
+
+5.Show the name and population for France, Germany, Italy
+
+	SELECT name, population from world
+	WHERE name in ('France', 'Germany', 'Italy')
+
+6.Show the countries which have a name that includes the word 'United'
+
+	SELECT name from world
+	WHERE name LIKE '%united%'
+
+7.Dos formas de ser grande: un país es grande si tiene un área de más de 3 millones de kilómetros cuadrados o tiene una población de más de 250 millones.
+Muestre los países que son grandes por área o grandes por población. Muestra nombre, población y área.
+
+	SELECT name, population, area from world
+	WHERE area > 3000000 OR population > 250000000
+
+8.OR exclusivo (XOR). Muestre los países que son grandes por área (más de 3 millones) o grandes por población (más de 250 millones) pero no ambos. Muestra nombre, población y área.
+
+Australia tiene un área grande pero una población pequeña, debería incluirse .
+Indonesia tiene una gran población pero un área pequeña, debería incluirse .
+China tiene una gran población y una gran superficie, debería excluirse .
+Reino Unido tiene una población pequeña y un área pequeña, debe excluirse
+
+	SELECT name, population, area from world
+	WHERE area > 3000000 XOR population >250000000
+
+9.Show the name and population in millions and the GDP in billions for the countries of the continent 'South America'. Use the ROUND function to show the values to two decimal places.
+For South America show population in millions and GDP in billions both to 2 decimal places.
+
+	SELECT name, ROUND(population/1000000,2), ROUND(gdp/1000000000,2) 
+	from world
+	WHERE continent like 'south america' 
+
+10.Muestre el namey el PIB per cápita de aquellos países con un PIB de al menos un billón (1000000000000; es decir, 12 ceros). Redondea este valor al 1000 más cercano.
+Muestre el PIB per cápita de los países de billones de dólares redondeado a los $ 1000 más cercanos.
+
+	SELECT name, ROUND(gdp/population,-3) FROM world
+	WHERE gdp >= 1000000000000
+
+11.Grecia tiene la capital Atenas.
+Cada una de las cadenas 'Grecia' y 'Atenas' tiene 6 caracteres.
+Muestre el nombre y la mayúscula donde el nombre y la capital tengan el mismo número de caracteres.
+
+	SELECT name, capital
+  	FROM world
+ 	WHERE LENGTH(name) = LENGTH(capital)
+
+12.The capital of Sweden is Stockholm. Both words start with the letter 'S'.
+Show the name and the capital where the first letters of each match. Don't include countries where the name and the capital are the same word.
+You can use the function LEFT to isolate the first character.
+You can use <> as the NOT EQUALS operator.
+
+	SELECT name, capital
+	FROM world
+	WHERE LEFT(name,1)= LEFT(capital,1)
+	AND name != capital
+13.Equatorial Guinea and Dominican Republic have all of the vowels (a e i o u) in the name. They don't count because they have more than one word in the name.
+Find the country that has all the vowels and no spaces in its name.
+You can use the phrase name NOT LIKE '%a%' to exclude characters from your results.
+The query shown misses countries like Bahamas and Belarus because they contain at least one 'a'
+
+	SELECT name FROM world
+	WHERE name LIKE '%a%'
+	AND name LIKE '%e%'
+	AND name LIKE '%i%'
+	AND name LIKE '%o%'
+	AND name LIKE '%u%'
+	AND name NOT LIKE '% %'
+
+
+

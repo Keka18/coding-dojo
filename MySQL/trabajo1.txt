@@ -1,0 +1,43 @@
+Terminal;
+mysql -u root;
+show databases;
+use jecaII;
+MariaDB [jecaII]> create table trabajo1(id INT, nombre VARCHAR (255), apellido VARCHAR (255));
+Query OK, 0 rows affected (0.061 sec)
+
+MariaDB [jecaII]> select * FROM trabajo1;
+Empty set (0.005 sec)
+
+MariaDB [jecaII]> show tables;
++------------------+
+| Tables_in_jecaII |
++------------------+
+| trabajo1         |
++------------------+
+
+
+
+MariaDB [jecaII]> insert into trabajo1 (id, nombre, apellido) values (1,'jessica', 'salamanca') ;
+
+
+MariaDB [jecaII]> select * from trabajo1;
++------+---------+-----------+
+| id   | nombre  | apellido  |
++------+---------+-----------+
+|    1 | jessica | salamanca |
++------+---------+-----------+
+
+MariaDB [jecaII]> set sql_safe_updates=0; (sirve para otorgar permiso en mi base de datos para editarla)
+
+
+MariaDB [jecaII]> update trabajo1 set id=2, nombre='evelyn', apellido='fuentes' where id=1; 
+
+
+MariaDB [jecaII]> select * from trabajo1;
++------+--------+----------+
+| id   | nombre | apellido |
++------+--------+----------+
+|    2 | evelyn | fuentes  |
++------+--------+----------+
+
+MariaDB [jecaII]> delete from trabajo1 where id=2; 

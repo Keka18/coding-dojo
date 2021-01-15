@@ -1,0 +1,208 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2513
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;\f1\fnil\fcharset0 Menlo-Bold;\f2\froman\fcharset0 Times-Roman;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red63\green63\blue63;\red63\green63\blue63;
+}
+{\*\expandedcolortbl;;\csgray\c0;\cssrgb\c31373\c31373\c31373;\cssrgb\c31373\c31373\c31373;
+}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid1\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid101\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid2}
+{\list\listtemplateid3\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid201\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid3}
+{\list\listtemplateid4\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid301\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid4}
+{\list\listtemplateid5\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid401\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid5}
+{\list\listtemplateid6\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid501\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid6}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}{\listoverride\listid3\listoverridecount0\ls3}{\listoverride\listid4\listoverridecount0\ls4}{\listoverride\listid5\listoverridecount0\ls5}{\listoverride\listid6\listoverridecount0\ls6}}
+\margl1440\margr1440\vieww28600\viewh16580\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs22 \cf2 \CocoaLigature0 \
+ 1.-\
+\
+MariaDB [amigos]> SELECT users.first_name, users.last_name, user2.first_name, user2.last_name FROM users LEFT JOIN friendships ON user_id=users.id LEFT JOIN users AS user2 ON user_id=users.id WHERE friendships.friend_id=user2.id;\
++------------+-----------+------------+-----------+\
+| first_name | last_name | first_name | last_name |\
++------------+-----------+------------+-----------+\
+| Amy        | Giver     | Eli        | Byers     |\
+| Amy        | Giver     | Big        | Bird      |\
+| Amy        | Giver     | Kermit     | The Frog  |\
+| Eli        | Byers     | Kermit     | The Frog  |\
+| Eli        | Byers     | Marky      | Mark      |\
+| Marky      | Mark      | Big        | Bird      |\
++------------+-----------+------------+-----------+\
+
+\f1\b \
+\
+\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl504\partightenfactor0
+\ls1\ilvl0
+\f2\b0\fs28 \cf3 \CocoaLigature1 {\listtext	2.1.	}\expnd0\expndtw0\kerning0
+Devuelva a todos los usuarios que son amigos de Kermit, aseg\'farese de que sus nombres se muestren en los resultados.\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs22 \cf2 \kerning1\expnd0\expndtw0 \CocoaLigature0 \
+\
+MariaDB [amigos]> SELECT  user2.first_name ,user2.last_name, users.first_name, users.last_name FROM users \
+    -> LEFT JOIN friendships ON user_id=users.id \
+    -> LEFT JOIN users as user2 ON user_id= users.id\
+    -> WHERE friendships.friend_id= user2.id AND user2.first_name='Kermit'\
+    -> ;\
++------------+-----------+------------+-----------+\
+| first_name | last_name | first_name | last_name |\
++------------+-----------+------------+-----------+\
+| Kermit     | The Frog  | Amy        | Giver     |\
+| Kermit     | The Frog  | Eli        | Byers     |\
++------------+-----------+------------+-----------+\
+
+\f1\b \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl504\partightenfactor0
+\ls2\ilvl0
+\f2\b0\fs28 \cf3 \CocoaLigature1 	2.2.\expnd0\expndtw0\kerning0
+Devuelve el recuento de todas las amistades.\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs22 \cf2 \kerning1\expnd0\expndtw0 \CocoaLigature0 \
+\
+MariaDB [amigos]> SELECT user2.first_name ,user2.last_name ,COUNT(user2.id) AS cantidad FROM users \
+    -> LEFT JOIN friendships ON user_id=users.id \
+    -> LEFT JOIN users as user2 ON user_id= users.id\
+    -> WHERE friendships.friend_id= user2.id \
+    -> GROUP BY user2.id ORDER BY cantidad ASC \
+    -> ;\
++------------+-----------+----------+\
+| first_name | last_name | cantidad |\
++------------+-----------+----------+\
+| Marky      | Mark      |        1 |\
+| Eli        | Byers     |        1 |\
+| Big        | Bird      |        2 |\
+| Kermit     | The Frog  |        2 |\
++------------+-----------+----------+\
+\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl504\partightenfactor0
+\ls3\ilvl0
+\f2\fs28 \cf3 \CocoaLigature1   2.3. \expnd0\expndtw0\kerning0
+Descubre qui\'e9n tiene m\'e1s amigos y devuelve el recuento de sus amigos.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs22 \cf2 \kerning1\expnd0\expndtw0 \CocoaLigature0 MariaDB [amigos]> SELECT users.first_name, users.last_name, COUNT(users.id) \
+    -> AS 'recuento' FROM users\
+    -> LEFT JOIN friendships ON user_id = users.id\
+    -> JOIN users as user2 ON friend_id = user2.id\
+    ->     GROUP BY users.id order by max(users.id) limit 1;\
++------------+-----------+----------+\
+| first_name | last_name | recuento |\
++------------+-----------+----------+\
+| Amy        | Giver     |        3 |\
++------------+-----------+----------+\
+\
+  
+\f2\fs28 \cf4 \CocoaLigature1 2.4. \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec4 Crea un nuevo usuario y hazlos amigos de Eli Byers, Kermit The Frog y Marky Mark.\
+\
+
+\f0\fs22 \cf2 \kerning1\expnd0\expndtw0 \CocoaLigature0 \outl0\strokewidth0 \
+MariaDB [amigos]> select * from friendships;\
++----+---------+-----------+---------------------+------------+\
+| id | user_id | friend_id | created_at          | updated_at |\
++----+---------+-----------+---------------------+------------+\
+|  1 |       1 |         2 | 2019-02-08 11:13:27 | NULL       |\
+|  2 |       1 |         3 | 2019-02-08 11:14:03 | NULL       |\
+|  3 |       1 |         4 | 2019-02-08 11:14:38 | NULL       |\
+|  4 |       2 |         4 | 2019-02-08 11:15:11 | NULL       |\
+|  7 |       6 |         2 | 2020-08-12 23:26:05 | NULL       |\
+|  6 |       5 |         3 | 2019-02-08 11:16:02 | NULL       |\
+|  8 |       6 |         4 | 2020-08-12 23:26:05 | NULL       |\
+|  9 |       6 |         5 | 2020-08-12 23:26:05 | NULL       |\
++----+---------+-----------+---------------------+------------+\
+\
+MariaDB [amigos]> delete from friendships where id=7;\
+\
+\
+MariaDB [amigos]> delete from friendships where id=8;\
+\
+\
+MariaDB [amigos]> delete from friendships where id=9;\
+
+\f2\fs28 \cf4 \expnd0\expndtw0\kerning0
+\CocoaLigature1 \outl0\strokewidth0 \strokec4 \
+
+\f0\fs22 \cf2 \kerning1\expnd0\expndtw0 \CocoaLigature0 \outl0\strokewidth0 \
+MariaDB [amigos]> select * from friendships;\
++----+---------+-----------+---------------------+------------+\
+| id | user_id | friend_id | created_at          | updated_at |\
++----+---------+-----------+---------------------+------------+\
+|  1 |       1 |         2 | 2019-02-08 11:13:27 | NULL       |\
+|  2 |       1 |         3 | 2019-02-08 11:14:03 | NULL       |\
+|  3 |       1 |         4 | 2019-02-08 11:14:38 | NULL       |\
+|  4 |       2 |         4 | 2019-02-08 11:15:11 | NULL       |\
+|  6 |       5 |         3 | 2019-02-08 11:16:02 | NULL       |\
++----+---------+-----------+---------------------+------------+\
+
+\f2\fs28 \cf4 \expnd0\expndtw0\kerning0
+\CocoaLigature1 \outl0\strokewidth0 \strokec4 \
+
+\f0\fs22 \cf2 \kerning1\expnd0\expndtw0 \CocoaLigature0 \outl0\strokewidth0 \
+MariaDB [amigos]> INSERT INTO amigos . friendships (id, user_id, friend_id, created_at) VALUES (7, 7, 2, '2020-08-12 23:26:05'),  (8, 7, 4, '2020-08-12 23:26:05'), (9,7, 5, '2020-08-12 23:26:05');\
+\
+\
+MariaDB [amigos]> select * from friendships;\
++----+---------+-----------+---------------------+------------+\
+| id | user_id | friend_id | created_at          | updated_at |\
++----+---------+-----------+---------------------+------------+\
+|  1 |       1 |         2 | 2019-02-08 11:13:27 | NULL       |\
+|  2 |       1 |         3 | 2019-02-08 11:14:03 | NULL       |\
+|  3 |       1 |         4 | 2019-02-08 11:14:38 | NULL       |\
+|  4 |       2 |         4 | 2019-02-08 11:15:11 | NULL       |\
+|  9 |       7 |         5 | 2020-08-12 23:26:05 | NULL       |\
+|  6 |       5 |         3 | 2019-02-08 11:16:02 | NULL       |\
+|  8 |       7 |         4 | 2020-08-12 23:26:05 | NULL       |\
+|  7 |       7 |         2 | 2020-08-12 23:26:05 | NULL       |\
++----+---------+-----------+---------------------+------------+\
+
+\f2\fs28 \cf4 \expnd0\expndtw0\kerning0
+\CocoaLigature1 \outl0\strokewidth0 \strokec4 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl504\partightenfactor0
+\ls4\ilvl0\cf4 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 	\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec4 2.5. Devuelve a los amigos de Eli en orden alfab\'e9tico.\
+\ls4\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0  
+\f0\fs22 \cf2 \CocoaLigature0 MariaDB [amigos]> SELECT users.first_name, users.last_name, user2.first_name, \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+    -> user2.last_name FROM users\
+    -> LEFT JOIN friendships ON user_id = users.id\
+    -> JOIN users as user2 ON friend_id = user2.id\
+    ->     WHERE users.first_name ='Eli' ORDER BY user2.first_name;\
++------------+-----------+------------+-----------+\
+| first_name | last_name | first_name | last_name |\
++------------+-----------+------------+-----------+\
+| Eli        | Byers     | Kermit     | The Frog  |\
+| Eli        | Byers     | Marky      | Mark      |\
++------------+-----------+------------+-----------+\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl504\partightenfactor0
+\ls5\ilvl0
+\f2\fs28 \cf4 \expnd0\expndtw0\kerning0
+\CocoaLigature1 \outl0\strokewidth0 \strokec4 \
+ 2.6 Eliminar a Marky Mark de los amigos de Eli.\
+\pard\tx566\pardeftab720\sl504\partightenfactor0
+\cf4 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs22 \cf2 \kerning1\expnd0\expndtw0 \CocoaLigature0 \outl0\strokewidth0 MariaDB [amigos]> DELETE FROM friendships\
+    ->     -> WHERE id =5;\
+\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl504\partightenfactor0
+\ls6\ilvl0
+\f2\fs28 \cf4 \CocoaLigature1 2.7. \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec4 Devuelve todas las amistades, mostrando solo el nombre y apellido de ambos amigos\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\ls6\ilvl0
+\f0\fs22 \cf2 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 	\CocoaLigature0 MariaDB [amigos]> SELECT  user2.first_name, \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+    -> user2.last_name FROM users\
+    -> LEFT JOIN friendships ON user_id = users.id\
+    -> JOIN users as user2 ON friend_id = user2.id\
+    ->     WHERE users.first_name ='Eli';\
++------------+-----------+\
+| first_name | last_name |\
++------------+-----------+\
+| Kermit     | The Frog  |\
++------------+-----------+}
